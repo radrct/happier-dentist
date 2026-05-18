@@ -562,7 +562,7 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
       </ul>
       <div style="display:flex;align-items:center;gap:0.6rem">
         <button class="nav-newsletter" onclick="openNewsletter()">Newsletter</button>
-        <button class="nav-cta">Start Here</button>
+        <button class="nav-cta" onclick="document.querySelector('.cta-wrap').scrollIntoView({behavior:'smooth'})">Start Here</button>
       </div>
     </div>
   </div>
@@ -807,7 +807,7 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
         <h3 class="prod-name"><em>Chairside</em></h3>
         <p class="prod-liner">Find the right people. Keep them.</p>
         <p class="prod-body">Bad hires cost more than money &mdash; they cost energy, culture, and patients. Chairside identifies who belongs in your practice using behavioral profiles built for dental teams.</p>
-        <button class="prod-link">Learn more &rarr;</button>
+        <span class="prod-link" style="opacity:0.4;cursor:default;border-bottom-color:transparent">Coming soon</span>
       </div>
       <div class="product-card reveal d2">
         <span class="prod-tag">Identity &middot; Self-Knowledge</span>
@@ -821,14 +821,14 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
         <h3 class="prod-name">Signal <em>Deck</em></h3>
         <p class="prod-liner">Better conversations. Stronger teams.</p>
         <p class="prod-body">A conversation card deck for dental teams who want to actually know each other. The kind of culture you can&rsquo;t manufacture &mdash; but you can invite.</p>
-        <button class="prod-link">Learn more &rarr;</button>
+        <span class="prod-link" style="opacity:0.4;cursor:default;border-bottom-color:transparent">Coming soon</span>
       </div>
       <div class="product-card reveal d4">
         <span class="prod-tag">Career &middot; Growth</span>
         <h3 class="prod-name">Parallel <em>Path</em></h3>
         <p class="prod-liner">Your career &mdash; the version you actually want.</p>
         <p class="prod-body">A deck for dentists at the crossroads. Associate vs. owner, burnout vs. reinvention. Prompts that help you see your next move clearly.</p>
-        <button class="prod-link">Learn more &rarr;</button>
+        <span class="prod-link" style="opacity:0.4;cursor:default;border-bottom-color:transparent">Coming soon</span>
       </div>
 
       <!-- ENDOOS — full width specialty card -->
@@ -847,7 +847,7 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
             <span class="endoos-feat">Team Coordination</span>
             <span class="endoos-feat">Clinical Tracking</span>
           </div>
-          <a href="#" class="endoos-link">Learn more about EndoOS &rarr;</a>
+          <a href="https://endoos.chairsidehq.com/founders" target="_blank" rel="noopener" class="endoos-link">Request founder access &rarr;</a>
         </div>
         <div class="endoos-right">
           <div class="endoos-stat-n">1</div>
@@ -916,11 +916,9 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
         <span class="nav-name">Happier Dentist</span>
       </div>
       <div class="footer-links">
-        <a href="#">Products</a>
-        <a href="#">EndoOS</a>
-        <a href="#">drjasonkoh.com</a>
-        <a href="#">Privacy</a>
-        <a href="#">Contact</a>
+        <a href="https://endoos.chairsidehq.com/founders" target="_blank" rel="noopener">EndoOS</a>
+        <a href="https://innerform-beta.vercel.app" target="_blank" rel="noopener">Innerform</a>
+        <a href="mailto:jason@happierdentist.com">Contact</a>
       </div>
       <p class="footer-copy">&copy; 2026 Happier Dentist</p>
     </div>
