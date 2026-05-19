@@ -729,8 +729,7 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
     </div>
 
     <div class="hero-btns">
-      <button class="btn-primary">Start Here &rarr;</button>
-      <button class="btn-ghost">Watch the Story &rarr;</button>
+      <button class="btn-primary" onclick="document.querySelector('.cta-wrap').scrollIntoView({behavior:'smooth'})">Start Here &rarr;</button>
     </div>
   </div>
 
@@ -956,10 +955,11 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
       <h2 class="cta-h2">The work<em>starts here.</em></h2>
       <p class="cta-body">No program to join. No commitment required. Drop your email and we&rsquo;ll send you the most relevant starting point for where you are right now.</p>
       <div class="email-form">
-        <input type="email" class="email-input" placeholder="your@email.com">
-        <button class="email-submit">Send It</button>
+        <input type="email" class="email-input" id="cta-email" placeholder="your@email.com">
+        <button class="email-submit" onclick="captureCtaEmail()">Send It</button>
       </div>
-      <p class="cta-note">No spam. No pitch sequence. One useful thing.</p>
+      <p class="cta-note" id="cta-note">No spam. No pitch sequence. One useful thing.</p>
+      <p class="cta-note" id="cta-confirm" style="display:none;color:var(--amber)">You&rsquo;re in &mdash; we&rsquo;ll be in touch.</p>
     </div>
   </div>
 </div>
@@ -1006,6 +1006,31 @@ function toggleEmbed(id){
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape')closeNewsletter();
 });
+
+async function captureCtaEmail(){
+  var emailEl=document.getElementById('cta-email');
+  var email=emailEl.value.trim();
+  if(!email||!email.includes('@')){
+    emailEl.style.borderColor='oklch(0.60 0.18 25 / 0.7)';
+    setTimeout(function(){emailEl.style.borderColor=''},1600);
+    return;
+  }
+  var entry={
+    email:email,list:'general-cta',reason:'Start Here CTA',
+    timestamp:new Date().toISOString(),source:document.referrer||'direct'
+  };
+  try{
+    var existing=null;
+    try{existing=await window.storage.get('hd_subscribers')}catch(e){}
+    var subs=existing?JSON.parse(existing.value):[];
+    var isDupe=subs.some(function(s){return s.email===email&&s.list==='general-cta'});
+    if(!isDupe){subs.push(entry);await window.storage.set('hd_subscribers',JSON.stringify(subs));}
+  }catch(e){console.warn('Storage unavailable:',e);}
+  emailEl.style.display='none';
+  document.querySelector('.email-submit').style.display='none';
+  document.getElementById('cta-note').style.display='none';
+  document.getElementById('cta-confirm').style.display='block';
+}
 
 /* EMAIL CAPTURE */
 async function captureSignup(list,emailId,reasonId,formId,thanksId){
