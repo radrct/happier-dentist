@@ -125,8 +125,8 @@ let activeFilter = 'all';
 
 async function loadData() {
   try {
-    const result = await window.storage.get('hd_subscribers');
-    allSubs = result ? JSON.parse(result.value) : [];
+    const stored = localStorage.getItem('hd_subscribers');
+    allSubs = stored ? JSON.parse(stored) : [];
   } catch(e) {
     allSubs = [];
   }
@@ -210,7 +210,7 @@ function exportCSV() {
 
 async function clearAll() {
   if (!confirm('Delete all subscriber records? This cannot be undone.')) return;
-  await window.storage.set('hd_subscribers', JSON.stringify([]));
+  localStorage.setItem('hd_subscribers', JSON.stringify([]));
   allSubs = [];
   updateStats();
   renderTable();

@@ -614,7 +614,6 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
       <p class="nl-pub-desc">Identity, purpose, and the long game &mdash; for dentists doing the deeper work.</p>
       <div class="nl-pub-actions">
         <button class="nl-subscribe" onclick="toggleEmbed('io-embed')">Subscribe</button>
-        <a class="nl-archive" href="https://www.beehiiv.com/p/the-inner-operatory" target="_blank" rel="noopener">View archive &nearr;</a>
       </div>
       <div class="nl-embed-panel" id="io-embed">
         <div id="io-form">
@@ -643,7 +642,6 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
       <p class="nl-pub-desc">A monthly note from Dr. Jason Koh &mdash; clinical pearls, practice pulse, and what we&rsquo;re watching.</p>
       <div class="nl-pub-actions">
         <button class="nl-subscribe endoos" onclick="toggleEmbed('eo-embed')">Subscribe</button>
-        <a class="nl-archive" href="https://www.beehiiv.com/p/endoos-insights" target="_blank" rel="noopener">View archive &nearr;</a>
       </div>
       <div class="nl-embed-panel" id="eo-embed">
         <div id="eo-form">
@@ -1020,11 +1018,9 @@ async function captureCtaEmail(){
     timestamp:new Date().toISOString(),source:document.referrer||'direct'
   };
   try{
-    var existing=null;
-    try{existing=await window.storage.get('hd_subscribers')}catch(e){}
-    var subs=existing?JSON.parse(existing.value):[];
+    var subs=JSON.parse(localStorage.getItem('hd_subscribers')||'[]');
     var isDupe=subs.some(function(s){return s.email===email&&s.list==='general-cta'});
-    if(!isDupe){subs.push(entry);await window.storage.set('hd_subscribers',JSON.stringify(subs));}
+    if(!isDupe){subs.push(entry);localStorage.setItem('hd_subscribers',JSON.stringify(subs));}
   }catch(e){console.warn('Storage unavailable:',e);}
   emailEl.style.display='none';
   document.querySelector('.email-submit').style.display='none';
@@ -1048,11 +1044,9 @@ async function captureSignup(list,emailId,reasonId,formId,thanksId){
     source:document.referrer||'direct'
   };
   try{
-    var existing=null;
-    try{existing=await window.storage.get('hd_subscribers')}catch(e){}
-    var subs=existing?JSON.parse(existing.value):[];
+    var subs=JSON.parse(localStorage.getItem('hd_subscribers')||'[]');
     var isDupe=subs.some(function(s){return s.email===email&&s.list===list});
-    if(!isDupe){subs.push(entry);await window.storage.set('hd_subscribers',JSON.stringify(subs));}
+    if(!isDupe){subs.push(entry);localStorage.setItem('hd_subscribers',JSON.stringify(subs));}
   }catch(e){console.warn('Storage unavailable:',e);}
   document.getElementById(formId).style.display='none';
   document.getElementById(thanksId).style.display='block';
