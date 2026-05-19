@@ -534,15 +534,45 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
   animation:fadeUp 0.3s var(--ease-out) both;
 }
 .nl-embed-panel.open{display:block}
-.nl-embed-panel iframe{
-  width:100%;border:none;border-radius:10px;
-  min-height:180px;background:transparent;
-}
 .nl-embed-note{
   font-family:var(--font-body);font-size:0.72rem;
   color:oklch(1 0 0 / 0.22);margin-top:0.75rem;
   letter-spacing:0.03em;text-align:center;
 }
+
+/* CAPTURE FORM */
+.nl-input{
+  width:100%;background:oklch(1 0 0 / 0.04);
+  border:1px solid oklch(1 0 0 / 0.1);
+  border-radius:8px;color:var(--aged-white);
+  font-family:var(--font-body);font-size:0.85rem;
+  padding:0.75rem 1rem;outline:none;margin-bottom:0.6rem;
+  transition:border-color 0.2s;
+}
+.nl-input::placeholder{color:oklch(1 0 0 / 0.22)}
+.nl-input:focus{border-color:oklch(0.72 0.17 55 / 0.45)}
+.nl-select{appearance:none;cursor:pointer;color:oklch(1 0 0 / 0.45)}
+.nl-select option{background:#1a1a18;color:var(--aged-white)}
+.nl-submit{
+  width:100%;background:oklch(0.72 0.17 55 / 0.14);
+  border:1px solid oklch(0.72 0.17 55 / 0.4);
+  color:var(--amber);font-family:var(--font-ui);font-size:0.78rem;
+  font-weight:600;letter-spacing:0.08em;padding:0.75rem 1rem;
+  border-radius:8px;cursor:pointer;transition:all 0.2s;margin-top:0.2rem;
+}
+.nl-submit:hover{background:oklch(0.72 0.17 55 / 0.22);border-color:oklch(0.72 0.17 55 / 0.7)}
+.nl-submit.endoos{
+  border-color:oklch(0.55 0.18 265 / 0.45);
+  color:oklch(0.72 0.18 265);
+  background:oklch(0.55 0.18 265 / 0.1);
+}
+.nl-submit.endoos:hover{background:oklch(0.55 0.18 265 / 0.22);border-color:oklch(0.62 0.2 265)}
+.nl-thanks{padding:0.25rem 0}
+.nl-thanks-msg{
+  font-family:var(--font-display);font-style:italic;
+  font-size:1.05rem;color:var(--amber);margin-bottom:0.5rem;line-height:1.5;
+}
+.nl-input.error{border-color:oklch(0.60 0.18 25 / 0.7)}
 </style>
 </head>
 <body>
@@ -587,10 +617,24 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
         <a class="nl-archive" href="https://www.beehiiv.com/p/the-inner-operatory" target="_blank" rel="noopener">View archive &nearr;</a>
       </div>
       <div class="nl-embed-panel" id="io-embed">
-        <!-- SWAP THIS src FOR YOUR BEEHIIV EMBED URL — Inner Operatory -->
-        <!-- Get it from: Beehiiv > Settings > Forms > Embed -->
-        <iframe src="https://embeds.beehiiv.com/INNER-OPERATORY-ID" data-test-id="beehiiv-embed" scrolling="no" style="width:100%;min-height:200px;border-radius:10px;border:none;background:transparent;"></iframe>
-        <p class="nl-embed-note">No spam. One useful thing, weekly.</p>
+        <div id="io-form">
+          <input class="nl-input" id="io-email" type="email" placeholder="your@email.com" autocomplete="email"/>
+          <select class="nl-input nl-select" id="io-reason">
+            <option value="" disabled selected>What brought you here?</option>
+            <option value="Identity & self-knowledge">Identity &amp; self-knowledge</option>
+            <option value="The parallel path concept">The parallel path concept</option>
+            <option value="Career transition or burnout">Career transition or burnout</option>
+            <option value="Purpose & meaning">Purpose &amp; meaning</option>
+            <option value="Jason's content or videos">Jason&rsquo;s content or videos</option>
+            <option value="Recommended by someone">Recommended by someone</option>
+            <option value="Just curious">Just curious</option>
+          </select>
+          <button class="nl-submit" onclick="captureSignup('inner-operatory','io-email','io-reason','io-form','io-thanks')">Join the list &rarr;</button>
+        </div>
+        <div id="io-thanks" style="display:none">
+          <p class="nl-thanks-msg">You&rsquo;re in. First issue lands next week.</p>
+          <p class="nl-embed-note">No spam. One useful thing, weekly.</p>
+        </div>
       </div>
     </div>
     <div class="nl-pub">
@@ -602,9 +646,22 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
         <a class="nl-archive" href="https://www.beehiiv.com/p/endoos-insights" target="_blank" rel="noopener">View archive &nearr;</a>
       </div>
       <div class="nl-embed-panel" id="eo-embed">
-        <!-- SWAP THIS src FOR YOUR BEEHIIV EMBED URL — EndoOS Insights -->
-        <iframe src="https://embeds.beehiiv.com/ENDOOS-INSIGHTS-ID" data-test-id="beehiiv-embed" scrolling="no" style="width:100%;min-height:200px;border-radius:10px;border:none;background:transparent;"></iframe>
-        <p class="nl-embed-note">For dental professionals. Monthly. No noise.</p>
+        <div id="eo-form">
+          <input class="nl-input" id="eo-email" type="email" placeholder="your@email.com" autocomplete="email"/>
+          <select class="nl-input nl-select" id="eo-reason">
+            <option value="" disabled selected>What brought you here?</option>
+            <option value="Referring office">I refer patients to Dr. Koh</option>
+            <option value="Looking for clinical updates">Looking for clinical updates</option>
+            <option value="Staying connected with the practice">Staying connected with the practice</option>
+            <option value="Colleague recommendation">Colleague recommendation</option>
+            <option value="Just curious">Just curious</option>
+          </select>
+          <button class="nl-submit endoos" onclick="captureSignup('endoos-insights','eo-email','eo-reason','eo-form','eo-thanks')">Join the list &rarr;</button>
+        </div>
+        <div id="eo-thanks" style="display:none">
+          <p class="nl-thanks-msg">You&rsquo;re on the list. See you next month.</p>
+          <p class="nl-embed-note">For dental professionals. Monthly. No noise.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -949,6 +1006,32 @@ function toggleEmbed(id){
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape')closeNewsletter();
 });
+
+/* EMAIL CAPTURE */
+async function captureSignup(list,emailId,reasonId,formId,thanksId){
+  var emailEl=document.getElementById(emailId);
+  var email=emailEl.value.trim();
+  if(!email||!email.includes('@')){
+    emailEl.classList.add('error');
+    setTimeout(function(){emailEl.classList.remove('error')},1600);
+    return;
+  }
+  var reason=document.getElementById(reasonId).value||'Not specified';
+  var entry={
+    email:email,list:list,reason:reason,
+    timestamp:new Date().toISOString(),
+    source:document.referrer||'direct'
+  };
+  try{
+    var existing=null;
+    try{existing=await window.storage.get('hd_subscribers')}catch(e){}
+    var subs=existing?JSON.parse(existing.value):[];
+    var isDupe=subs.some(function(s){return s.email===email&&s.list===list});
+    if(!isDupe){subs.push(entry);await window.storage.set('hd_subscribers',JSON.stringify(subs));}
+  }catch(e){console.warn('Storage unavailable:',e);}
+  document.getElementById(formId).style.display='none';
+  document.getElementById(thanksId).style.display='block';
+}
 
 function setAud(type){
   document.querySelectorAll('.aud-btn').forEach(function(b,i){
