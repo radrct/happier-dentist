@@ -88,10 +88,8 @@ nav{
 /* NEBULA */
 .nebula-wrap{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .orb{position:absolute;border-radius:50%;filter:blur(45px)}
-.orb-amber{top:5vh;left:-15vw;width:75vw;height:75vw;background:radial-gradient(circle at 40% 40%,oklch(0.78 0.20 55 / 0.20) 0%,oklch(0.65 0.18 50 / 0.10) 40%,transparent 70%);animation:nebulaDrift 22s ease-in-out infinite alternate}
-.orb-blue{top:-20vh;right:-20vw;width:85vw;height:85vw;background:radial-gradient(circle at 55% 45%,oklch(0.50 0.22 265 / 0.24) 0%,oklch(0.40 0.16 270 / 0.12) 40%,transparent 70%);animation:nebulaDrift 28s ease-in-out infinite alternate-reverse}
-.orb-purple{top:40vh;right:-10vw;width:50vw;height:50vw;background:radial-gradient(circle at 50% 50%,oklch(0.38 0.12 300 / 0.16) 0%,transparent 65%);animation:nebulaDrift 18s ease-in-out infinite alternate}
-.orb-teal{bottom:-10vh;left:10vw;width:45vw;height:45vw;background:radial-gradient(circle at 50% 50%,oklch(0.55 0.12 195 / 0.12) 0%,transparent 65%);animation:nebulaDrift 24s ease-in-out infinite alternate-reverse}
+.orb-amber{top:5vh;left:-15vw;width:75vw;height:75vw;background:radial-gradient(circle at 40% 40%,oklch(0.78 0.20 55 / 0.14) 0%,oklch(0.65 0.18 50 / 0.07) 40%,transparent 70%);animation:nebulaDrift 22s ease-in-out infinite alternate}
+.orb-blue{top:-20vh;right:-20vw;width:85vw;height:85vw;background:radial-gradient(circle at 55% 45%,oklch(0.50 0.22 265 / 0.16) 0%,oklch(0.40 0.16 270 / 0.08) 40%,transparent 70%);animation:nebulaDrift 28s ease-in-out infinite alternate-reverse}
 @keyframes nebulaDrift{
   0%{transform:translate(0,0) scale(1)}
   33%{transform:translate(3%,-2%) scale(1.05)}
@@ -107,27 +105,8 @@ nav{
   mask-image:radial-gradient(ellipse 80% 60% at 50% 40%,black 0%,transparent 100%);
   animation:gridPulse 8s ease-in-out infinite;
 }
-@keyframes gridPulse{0%,100%{opacity:0.4}50%{opacity:0.8}}
+@keyframes gridPulse{0%,100%{opacity:0.2}50%{opacity:0.45}}
 
-/* ANAMORPHIC FLARES — hero background only, not on logo */
-.flare-wrap{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2}
-.flare-amber{
-  position:absolute;top:16%;left:-20%;width:140%;height:2px;
-  background:linear-gradient(to right,transparent 0%,oklch(0.80 0.20 58 / 0.0) 15%,oklch(0.80 0.20 58 / 0.5) 45%,oklch(0.90 0.22 60 / 0.55) 50%,oklch(0.80 0.20 58 / 0.5) 55%,oklch(0.80 0.20 58 / 0.0) 85%,transparent 100%);
-  filter:blur(0.5px);animation:flareSlide 10s ease-in-out infinite alternate;transform:rotate(-0.5deg);
-}
-.flare-amber::before{content:'';position:absolute;top:-8px;left:0;right:0;height:18px;background:inherit;filter:blur(6px);opacity:0.35}
-.flare-teal{
-  position:absolute;top:24%;left:-10%;width:130%;height:1px;
-  background:linear-gradient(to right,transparent 0%,oklch(0.65 0.14 195 / 0.0) 20%,oklch(0.65 0.14 195 / 0.45) 48%,oklch(0.75 0.16 195 / 0.45) 50%,oklch(0.65 0.14 195 / 0.45) 52%,oklch(0.65 0.14 195 / 0.0) 80%,transparent 100%);
-  filter:blur(0.3px);animation:flareSlide 13s ease-in-out infinite alternate-reverse;transform:rotate(0.3deg);
-}
-.flare-teal::before{content:'';position:absolute;top:-5px;left:0;right:0;height:11px;background:inherit;filter:blur(5px);opacity:0.3}
-@keyframes flareSlide{
-  0%{opacity:0.35;transform:translateX(-3%) rotate(-0.5deg)}
-  50%{opacity:0.9}
-  100%{opacity:0.5;transform:translateX(3%) rotate(-0.5deg)}
-}
 
 /* HERO */
 .hero{
@@ -403,12 +382,8 @@ section{padding:7rem 0;position:relative}
 .email-submit:hover{background:var(--amber-glow)}
 .cta-note{font-family:var(--font-body);font-size:0.72rem;color:oklch(1 0 0 / 0.25);margin-top:1rem;letter-spacing:0.05em}
 
-/* TICKER */
-.ticker-wrap{overflow:hidden;padding:1.5rem 0;border-top:1px solid oklch(1 0 0 / 0.06);border-bottom:1px solid oklch(1 0 0 / 0.06)}
-.ticker-track{display:flex;animation:ticker 25s linear infinite;width:max-content}
-.ticker-item{font-family:var(--font-ui);font-size:0.7rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:oklch(1 0 0 / 0.2);padding:0 3rem;white-space:nowrap}
-.ticker-item.amber{color:var(--amber);opacity:0.7}
-@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+/* SEPARATOR */
+.sep{width:100%;height:1px;background:linear-gradient(to right,transparent,oklch(0.72 0.17 55 / 0.18),transparent);margin:0}
 
 /* FOOTER */
 footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklch(0.11 0.030 258 / 0.9)}
@@ -670,14 +645,8 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
   <div class="nebula-wrap">
     <div class="orb orb-amber"></div>
     <div class="orb orb-blue"></div>
-    <div class="orb orb-purple"></div>
-    <div class="orb orb-teal"></div>
   </div>
   <div class="grid-underlay"></div>
-  <div class="flare-wrap">
-    <div class="flare-amber"></div>
-    <div class="flare-teal"></div>
-  </div>
   <canvas id="particles" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none"></canvas>
 
   <div style="position:relative;z-index:10;display:flex;flex-direction:column;align-items:center">
@@ -709,21 +678,11 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
     <div id="panel-gx" class="aud-panel gx-panel active">
       <p class="aud-quote">&ldquo;You already know what this costs. The Sunday dread. The body that aches by Thursday. The practice that looks fine on paper and feels hollow in person. You&rsquo;ve been here long enough to know something has to change &mdash; and long enough to wonder if it still can. It can.&rdquo;</p>
       <p class="aud-sub">But not by doing more of the same thing harder. 16+ years in practice taught us the shift isn&rsquo;t about working less &mdash; it&rsquo;s about working differently.</p>
-      <div class="aud-stats">
-        <div><div class="aud-stat-n gold-n">16+</div><div class="aud-stat-l">Years in practice</div></div>
-        <div><div class="aud-stat-n gold-n">2</div><div class="aud-stat-l">Practices owned</div></div>
-        <div><div class="aud-stat-n gold-n">1</div><div class="aud-stat-l">Way forward</div></div>
-      </div>
     </div>
 
     <div id="panel-ng" class="aud-panel ng-panel">
       <p class="aud-quote">&ldquo;You&rsquo;ve watched it happen to someone. A mentor, an attending, an associate ten years ahead who&rsquo;s exhausted and quietly wondering how they got there. You don&rsquo;t want that story. And you don&rsquo;t have to end up there &mdash; if you start making different choices now.&rdquo;</p>
       <p class="aud-sub">The habits, the finances, the identity &mdash; it all compounds. The dentists who thrive at 45 made a few key decisions at 28 that everyone else missed.</p>
-      <div class="aud-stats">
-        <div><div class="aud-stat-n teal-n">Now</div><div class="aud-stat-l">Best time to start</div></div>
-        <div><div class="aud-stat-n teal-n">3</div><div class="aud-stat-l">Years before patterns set</div></div>
-        <div><div class="aud-stat-n teal-n">0</div><div class="aud-stat-l">Regrets required</div></div>
-      </div>
     </div>
 
     <div class="hero-btns">
@@ -738,26 +697,7 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
 </div>
 
 <!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker-track">
-    <span class="ticker-item">Time</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">Strength</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">Money</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">Freedom</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">Happier Dentist</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">16+ Years in Practice</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">Built by a Dentist</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">For Dentists</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">Time</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">Strength</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">Money</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">Freedom</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">Happier Dentist</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">16+ Years in Practice</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">Built by a Dentist</span><span class="ticker-item amber">&middot;</span>
-    <span class="ticker-item">For Dentists</span><span class="ticker-item amber">&middot;</span>
-  </div>
-</div>
+<div class="sep"></div>
 
 <div class="divider"><div class="div-line"></div><div class="div-dot"></div><div class="div-line"></div></div>
 
@@ -976,7 +916,7 @@ footer{padding:2.5rem 0;border-top:1px solid oklch(1 0 0 / 0.07);background:oklc
       <div class="footer-links">
         <a href="https://endo-os.com" target="_blank" rel="noopener">EndoOS</a>
         <a href="https://innerform-beta.vercel.app" target="_blank" rel="noopener">Innerform</a>
-        <a href="mailto:jason@happierdentist.com">Contact</a>
+        <a href="mailto:jason@endo-os.com">Contact</a>
       </div>
       <p class="footer-copy">&copy; 2026 Happier Dentist</p>
     </div>
@@ -1010,23 +950,28 @@ document.addEventListener('keydown',function(e){
 
 async function captureCtaEmail(){
   var emailEl=document.getElementById('cta-email');
+  var btn=document.querySelector('.email-submit');
   var email=emailEl.value.trim();
   if(!email||!email.includes('@')){
     emailEl.style.borderColor='oklch(0.60 0.18 25 / 0.7)';
     setTimeout(function(){emailEl.style.borderColor=''},1600);
     return;
   }
-  var entry={
-    email:email,list:'general-cta',reason:'Start Here CTA',
-    timestamp:new Date().toISOString(),source:document.referrer||'direct'
-  };
+  btn.textContent='Sending…';btn.disabled=true;
+  try{
+    await fetch('https://formsubmit.co/ajax/jason@endo-os.com',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({email:email,_subject:'New Happier Dentist subscriber',_captcha:'false',source:'cta'})
+    });
+  }catch(e){console.warn('FormSubmit error:',e);}
   try{
     var subs=JSON.parse(localStorage.getItem('hd_subscribers')||'[]');
     var isDupe=subs.some(function(s){return s.email===email&&s.list==='general-cta'});
-    if(!isDupe){subs.push(entry);localStorage.setItem('hd_subscribers',JSON.stringify(subs));}
-  }catch(e){console.warn('Storage unavailable:',e);}
+    if(!isDupe){subs.push({email:email,list:'general-cta',timestamp:new Date().toISOString()});localStorage.setItem('hd_subscribers',JSON.stringify(subs));}
+  }catch(e){}
   emailEl.style.display='none';
-  document.querySelector('.email-submit').style.display='none';
+  btn.style.display='none';
   document.getElementById('cta-note').style.display='none';
   document.getElementById('cta-confirm').style.display='block';
 }
@@ -1078,12 +1023,12 @@ function setAud(type){
   resize();window.addEventListener('resize',resize);
   const colors=[
     {r:224,g:180,b:76},{r:224,g:180,b:76},{r:224,g:180,b:76},
-    {r:45,g:212,b:191},{r:80,g:120,b:220},{r:160,g:80,b:220},{r:255,g:245,b:220}
+    {r:80,g:120,b:220},{r:255,g:245,b:220}
   ];
   const particles=[];
   function spawn(){
     const c=colors[Math.floor(Math.random()*colors.length)];
-    const fast=Math.random()>0.7;
+    const fast=Math.random()>0.8;
     particles.push({
       x:Math.random()*canvas.width,y:Math.random()*canvas.height,
       vx:(Math.random()-0.5)*(fast?0.8:0.25),
@@ -1094,12 +1039,12 @@ function setAud(type){
       trailLen:fast?Math.random()*12+6:0,
     });
   }
-  for(let i=0;i<25;i++)spawn();
+  for(let i=0;i<12;i++)spawn();
   let frame=0;
   function animate(){
     requestAnimationFrame(animate);
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    if(frame%5===0&&particles.length<70)spawn();
+    if(frame%8===0&&particles.length<30)spawn();
     frame++;
     for(let i=particles.length-1;i>=0;i--){
       const p=particles[i];
