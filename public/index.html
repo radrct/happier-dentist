@@ -566,33 +566,128 @@ body::before{
   </div>
 </footer>
 
+<!-- NEWSLETTER MODAL ──────────────────────────── -->
+<div id="nlOverlay" role="dialog" aria-modal="true" aria-label="Newsletter signup" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(10,10,16,.9);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1.5rem">
+  <div style="background:var(--bg-card);border:0.5px solid var(--gold-border);border-radius:16px;padding:2.5rem 2rem;max-width:440px;width:100%;position:relative">
+    <button id="nlClose" aria-label="Close" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text-30);font-size:1.1rem;line-height:1;cursor:pointer;padding:.25rem .4rem">&#x2715;</button>
+    <p style="font-size:.68rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem">Stay in the loop</p>
+    <h2 style="font-family:var(--display);font-size:clamp(1.5rem,3.5vw,2rem);font-weight:400;line-height:1.2;color:var(--text);margin-bottom:.75rem">One useful thing, when it&rsquo;s ready.</h2>
+    <p style="color:var(--text-55);font-size:.875rem;margin-bottom:1.75rem">No noise. No schedule. Just the work.</p>
+    <form id="nl-form" novalidate>
+      <label for="nlEmail" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Email address</label>
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+        <input id="nlEmail" type="email" placeholder="your@email.com" required autocomplete="email" style="flex:1;min-width:160px;background:rgba(255,255,255,.04);border:0.5px solid var(--gold-border);border-radius:8px;padding:.75rem 1rem;color:var(--text);font-family:var(--sans);font-size:.875rem;outline:none">
+        <button type="submit" id="nlBtn" class="cta-btn" style="white-space:nowrap">Send It</button>
+      </div>
+    </form>
+    <p id="nlMsg" role="status" style="display:none;margin-top:1.25rem;color:var(--text-55);font-size:.875rem;line-height:1.5"></p>
+    <p style="margin-top:1.25rem;font-size:.72rem;color:var(--text-30)">No spam. Unsubscribe anytime.</p>
+  </div>
+</div>
+
 <script>
 (function(){
-  // Scroll reveal
-  var obs=new IntersectionObserver(function(e){
-    e.forEach(function(n){if(n.isIntersecting)n.target.classList.add('in')});
-  },{threshold:.07,rootMargin:'0px 0px -25px 0px'});
-  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+  var SUPA_URL = 'https://ikskmjrgsxgzewudyziz.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlrc2ttanJnc3hnemV3dWR5eml6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgxOTY0MTQsImV4cCI6MjA5Mzc3MjQxNH0.iHc3EXEYlZPuf3BVpfSvnE1MMqjdvmO9xTd1mdH_NI0';
+  var BH_URL  = 'https://api.beehiiv.com/v2/publications/pub_72a0034a-61c9-4101-a18c-aca2a5ca9481/subscriptions';
+  var BH_KEY  = 'CHycFJcpdC6BWcSmbFsmKVuk6GknVUtzPrl94JCtO3hSyMwZtXhCrLhkFOoM0K5d';
+  var SUCCESS = "You’re on the list. We’ll be in touch soon — we’re currently under construction but wanted to save your spot.";
+  var ERROR   = 'Something went wrong — please try again.';
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // FormSubmit AJAX
-  var form=document.getElementById('ctaForm');
-  var msg=document.getElementById('ctaMsg');
-  if(form){
-    form.addEventListener('submit',function(e){
+  // Post to Beehiiv + Supabase simultaneously; resolve if either succeeds
+  function subscribeEmail(email, source) {
+    return Promise.allSettled([
+      fetch(BH_URL, {
+        method: 'POST',
+        headers: {'Authorization': 'Bearer ' + BH_KEY, 'Content-Type': 'application/json'},
+        body: JSON.stringify({email: email, reactivate_existing: true, send_welcome_email: false})
+      }),
+      fetch(SUPA_URL + '/rest/v1/email_subscribers', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPA_KEY,
+          'Authorization': 'Bearer ' + SUPA_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({email: email, source: source})
+      })
+    ]).then(function(results) {
+      var anyOk = results.some(function(r) {
+        if (r.status !== 'fulfilled') return false;
+        return r.value.ok || r.value.status === 409; // 409 = already subscribed, treat as success
+      });
+      if (!anyOk) throw new Error('all failed');
+    });
+  }
+
+  // ── Scroll reveal ────────────────────────────
+  var obs = new IntersectionObserver(function(e) {
+    e.forEach(function(n) { if (n.isIntersecting) n.target.classList.add('in'); });
+  }, {threshold: .07, rootMargin: '0px 0px -25px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+
+  // ── CTA form (bottom section) ────────────────
+  var ctaForm = document.getElementById('ctaForm');
+  var ctaMsg  = document.getElementById('ctaMsg');
+  if (ctaForm) {
+    ctaForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      var email=document.getElementById('ctaEmail').value.trim();
-      if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return;
-      var btn=form.querySelector('.cta-btn');
-      btn.textContent='Sending…';btn.disabled=true;
-      fetch('https://formsubmit.co/ajax/jason@endo-os.com',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','Accept':'application/json'},
-        body:JSON.stringify({email:email,_subject:'New subscriber — Happier Dentist',_captcha:'false'})
-      }).then(function(r){return r.json()}).then(function(){
-        form.style.display='none';
-        if(msg)msg.style.display='block';
-      }).catch(function(){
-        btn.textContent='Try again';btn.disabled=false;
+      var email = document.getElementById('ctaEmail').value.trim();
+      if (!email || !EMAIL_RE.test(email)) return;
+      var btn = ctaForm.querySelector('.cta-btn');
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      subscribeEmail(email, 'happierdentist_cta').then(function() {
+        ctaForm.style.display = 'none';
+        if (ctaMsg) { ctaMsg.textContent = SUCCESS; ctaMsg.style.display = 'block'; }
+      }).catch(function() {
+        if (ctaMsg) { ctaMsg.textContent = ERROR; ctaMsg.style.display = 'block'; }
+        btn.textContent = 'Send It'; btn.disabled = false;
+      });
+    });
+  }
+
+  // ── Newsletter modal ─────────────────────────
+  var overlay = document.getElementById('nlOverlay');
+  var nlForm  = document.getElementById('nl-form');
+  var nlMsg   = document.getElementById('nlMsg');
+  var nlClose = document.getElementById('nlClose');
+
+  function openModal()  { if (overlay) overlay.style.display = 'flex'; }
+  function closeModal() { if (overlay) overlay.style.display = 'none'; }
+
+  // Nav "Start Here" opens modal instead of scrolling
+  var navCta = document.querySelector('a.nav-cta');
+  if (navCta) {
+    navCta.addEventListener('click', function(e) {
+      e.preventDefault();
+      openModal();
+    });
+  }
+
+  if (nlClose) nlClose.addEventListener('click', closeModal);
+  if (overlay) overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // Newsletter modal form submit
+  if (nlForm) {
+    nlForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = document.getElementById('nlEmail').value.trim();
+      if (!email || !EMAIL_RE.test(email)) return;
+      var btn = document.getElementById('nlBtn');
+      btn.textContent = 'Sending…'; btn.disabled = true;
+      subscribeEmail(email, 'happierdentist_newsletter').then(function() {
+        nlForm.style.display = 'none';
+        if (nlMsg) { nlMsg.textContent = SUCCESS; nlMsg.style.display = 'block'; }
+      }).catch(function() {
+        if (nlMsg) { nlMsg.textContent = ERROR; nlMsg.style.display = 'block'; }
+        btn.textContent = 'Send It'; btn.disabled = false;
       });
     });
   }
